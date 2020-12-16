@@ -96,7 +96,7 @@ CRU, https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">getCRUCLdata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@ CRU, https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,6 +114,18 @@ CRU, https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt" />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Advanced_use.html">Advanced usage of getCRUCLdata</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -121,7 +133,7 @@ CRU, https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ropensci/getCRUCLdata/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -148,12 +160,12 @@ CRU, https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt" />
 data and creates a tidy data frame of the data.  If requested, minimum and
 maximum temperature may also be automatically calculated as described in the
 data readme.txt file.  This function can be useful if you have network
-connection issues that mean automated downloading of the files using <span class="pkg">R</span>
+connection issues that mean automated downloading of the files using <span style="R">R</span>
 does not work properly.  In this instance it is recommended to use an
 <acronym>FTP</acronym> client (<em>e.g.</em>, FileZilla), web browser or command line
 command (<em>e.g.</em>, wget or curl) to download the files, save locally and
-use this function to import the data into <span class="pkg">R</span>.</p>
-<p>Nomenclature and units from readme.txt:</p><dl'>
+use this function to import the data into <span style="R">R</span>.</p>
+<p>Nomenclature and units from readme.txt:</p><dl>
 <dt>pre</dt><dd><p>precipitation (millimetres/month)</p></dd>
  
    
@@ -171,21 +183,21 @@ use this function to import the data into <span class="pkg">R</span>.</p>
 <acronym>CRU</acronym>, <a href='https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt'>https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_CRU_df</span>(
-  <span class='kw'>pre</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>pre_cv</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>rd0</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>tmp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dtr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>reh</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>tmn</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>tmx</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>sunp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>frs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>wnd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>elv</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dsn</span> <span class='kw'>=</span> <span class='st'>""</span>
-)</pre>
+    <pre class="usage"><span class='fu'>create_CRU_df</span><span class='op'>(</span>
+  pre <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  pre_cv <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  rd0 <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  tmp <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dtr <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  reh <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  tmn <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  tmx <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sunp <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  frs <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  wnd <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  elv <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dsn <span class='op'>=</span> <span class='st'>""</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -270,20 +282,24 @@ metres.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_CRU_df.html'>get_CRU_df</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Adam H Sparks, <a href='mailto:adamhsparks@gmail.com'>adamhsparks@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Create a data frame of temperature from locally available files in the</span>
 <span class='co'># tempdir() directory.</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(
-  <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://crudata.uea.ac.uk/cru/data/hrg/tmc/grid_10min_tmp.dat.gz"</span>,
-  <span class='kw'>destfile</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"grid_10min_tmp.dat.gz"</span>)
-)
+<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span><span class='op'>(</span>
+  url <span class='op'>=</span> <span class='st'>"https://crudata.uea.ac.uk/cru/data/hrg/tmc/grid_10min_tmp.dat.gz"</span>,
+  destfile <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"grid_10min_tmp.dat.gz"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>CRU_tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>create_CRU_df</span>(<span class='kw'>tmp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dsn</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>CRU_tmp</span> <span class='op'>&lt;-</span> <span class='fu'>create_CRU_df</span><span class='op'>(</span>tmp <span class='op'>=</span> <span class='cn'>TRUE</span>, dsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='no'>CRU_tmp</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6,795,144 x 4</span><span>
+<span class='va'>CRU_tmp</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6,795,144 x 4</span><span>
 #&gt;      lat   lon month   tmp
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> -</span><span style='color: #BB0000;'>59.1</span><span> -</span><span style='color: #BB0000;'>26.6</span><span> jan     0.2
@@ -296,7 +312,7 @@ metres.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span> -</span><span style='color: #BB0000;'>55.6</span><span> -</span><span style='color: #BB0000;'>67.4</span><span> jan     8.3
 #&gt; </span><span style='color: #555555;'> 9</span><span> -</span><span style='color: #BB0000;'>55.6</span><span> -</span><span style='color: #BB0000;'>67.6</span><span> jan     8.6
 #&gt; </span><span style='color: #555555;'>10</span><span> -</span><span style='color: #BB0000;'>55.6</span><span> -</span><span style='color: #BB0000;'>68.1</span><span> jan     8.2
-#&gt; </span><span style='color: #555555;'># … with 6,795,134 more rows</span><span></div><div class='input'># }
+#&gt; </span><span style='color: #555555;'># … with 6,795,134 more rows</span><span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>
@@ -310,11 +326,11 @@ metres.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Adam Sparks.</p>
+  <p>Developed by Adam H. Sparks.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">getCRUCLdata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -49,6 +49,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/Advanced_use.html">Advanced usage of getCRUCLdata</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -56,7 +68,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ropensci/getCRUCLdata/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -76,7 +88,7 @@
       <h1 data-toc-skip>getCRUCLdata</h1>
                         <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-08-20</h4>
+            <h4 class="date">2020-10-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/getCRUCLdata/blob/master/vignettes/getCRUCLdata.Rmd"><code>vignettes/getCRUCLdata.Rmd</code></a></small>
       <div class="hidden name"><code>getCRUCLdata.Rmd</code></div>
@@ -89,7 +101,7 @@
 <h2 class="hasAnchor">
 <a href="#introduction-to-getcrucldata" class="anchor"></a>Introduction to <em>getCRUCLdata</em>
 </h2>
-<p>The <em>getCRUCLdata</em> package provides functions that automate importing CRU CL v. 2.0 climatology data into R, facilitate the calculation of minimum temperature and maximum temperature, and formats the data into a <a href="http://vita.had.co.nz/papers/tidy-data.html">tidy data frame</a> as a <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> object or a <a href="https://www.rdocumentation.org/packages/base/versions/3.4.0/topics/list"><code><a href="https://rdrr.io/r/base/list.html">list()</a></code></a> of <a href="https://www.rdocumentation.org/packages/raster/versions/2.5-8/topics/stack"><code><a href="https://rdrr.io/pkg/raster/man/stack.html">raster::stack()</a></code></a> objects for use in an R session.</p>
+<p>The <em>getCRUCLdata</em> package provides functions that automate importing CRU CL v. 2.0 climatology data into R, facilitate the calculation of minimum temperature and maximum temperature, and formats the data into a <a href="http://vita.had.co.nz/papers/tidy-data.html">tidy data frame</a> as a <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> object or a <a href="https://www.rdocumentation.org/packages/base/versions/3.4.0/topics/list"><code>list()</code></a> of <a href="https://www.rdocumentation.org/packages/raster/versions/2.5-8/topics/stack"><code>raster::stack()</code></a> objects for use in an R session.</p>
 <p>CRU CL v. 2.0 data are a gridded climatology of 1961-1990 monthly means released in 2002 and cover all land areas (excluding Antarctica) at 10 arcminutes (0.1666667 degree) resolution. For more information see the description of the data provided by the University of East Anglia Climate Research Unit (CRU), <a href="https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt" class="uri">https://crudata.uea.ac.uk/cru/data/hrg/tmc/readme.txt</a>.</p>
 </div>
 <div id="changes-to-original-cru-cl-v--2-0-data" class="section level2">
@@ -102,107 +114,106 @@
 <h1 class="hasAnchor">
 <a href="#using-getcrucldata" class="anchor"></a>Using <em>getCRUCLdata</em>
 </h1>
-<p>Logical arguments are used to specify the climatology elements to retrieve and parse. The <code>create_CRU_*()</code> functions require an additional parameter, <code>dsn</code> to be provided that states where the files are locally stored. The arguments for selecting the climatology elements for importing are:</p>
+<p>Logical arguments are used to specify the climatology elements to retrieve and parse. All arguments default to <code>FALSE</code>. The <code>create_CRU_*()</code> functions require an additional parameter, <code>dsn</code> to be provided that states where the files are locally stored. The arguments for selecting the climatology elements for importing are:</p>
 <ul>
-<li>
-<strong>pre</strong> Logical. Fetch precipitation (millimetres/month) from server and return in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>pre_cv</strong> Logical. Fetch cv of precipitation (percent) from server and return in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>rd0</strong> Logical. Fetch wet-days (number days with &gt;0.1 millimetres rain per month) and return in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>dtr</strong> Logical. Fetch mean diurnal temperature range (degrees Celsius) and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>tmp</strong> Logical. Fetch temperature (degrees Celsius) and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>tmn</strong> Logical. Calculate minimum temperature values (degrees Celsius) and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>tmx</strong> Logical. Calculate maximum temperature (degrees Celsius) and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>reh</strong> Logical. Fetch relative humidity and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>sunp</strong> Logical. Fetch sunshine, percent of maximum possible (percent of day length) and return it in data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>frs</strong> Logical. Fetch ground-frost records (number of days with ground- frost per month) and return it in data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>wnd</strong> Logical. Fetch 10m wind speed (metres/second) and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>elv</strong> Logical. Fetch elevation (and convert to metres from kilometres) and return it in the data? Defaults to FALSE.<br>
-</li>
-<li>
-<strong>dsn</strong> <em>For <code><a href="../reference/create_CRU_stack.html">create_CRU_stack()</a></code></em> and <em><code><a href="../reference/create_CRU_df.html">create_CRU_df()</a></code></em> only. Local file path where CRU CL v. 2.0 .dat.gz files are located.</li>
+<li><p><strong>pre</strong> Logical. Fetch precipitation (millimetres/month) from server and return in the data?</p></li>
+<li><p><strong>pre_cv</strong> Logical. Fetch cv of precipitation (percent) from server and return in the data?</p></li>
+<li><p><strong>rd0</strong> Logical. Fetch wet-days (number days with &gt;0.1 millimetres rain per month) and return in the data?</p></li>
+<li><p><strong>dtr</strong> Logical. Fetch mean diurnal temperature range (degrees Celsius) and return it in the data?</p></li>
+<li><p><strong>tmp</strong> Logical. Fetch temperature (degrees Celsius) and return it in the data?</p></li>
+<li><p><strong>tmn</strong> Logical. Calculate minimum temperature values (degrees Celsius) and return it in the data?</p></li>
+<li><p><strong>tmx</strong> Logical. Calculate maximum temperature (degrees Celsius) and return it in the data?</p></li>
+<li><p><strong>reh</strong> Logical. Fetch relative humidity and return it in the data?</p></li>
+<li><p><strong>sunp</strong> Logical. Fetch sunshine, percent of maximum possible (percent of day length) and return it in data?</p></li>
+<li><p><strong>frs</strong> Logical. Fetch ground-frost records (number of days with ground-frost per month) and return it in data?</p></li>
+<li><p><strong>wnd</strong> Logical. Fetch 10m wind speed (metres/second) and return it in the data?</p></li>
+<li><p><strong>elv</strong> Logical. Fetch elevation (and convert to metres from kilometres) and return it in the data?</p></li>
+<li><p><strong>dsn</strong> <em>For <code><a href="../reference/create_CRU_stack.html">create_CRU_stack()</a></code></em> and <em><code><a href="../reference/create_CRU_df.html">create_CRU_df()</a></code></em> only. Local file path where CRU CL v. 2.0 .dat.gz files are located.</p></li>
 </ul>
 <div id="creating-tidy-data-frames-for-use-in-r" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-tidy-data-frames-for-use-in-r" class="anchor"></a>Creating tidy data frames for use in R</h3>
 <p>The <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code> function automates the download process and creates tidy data frames as a <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> of the CRU CL v. 2.0 climatology elements.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">getCRUCLdata</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/getCRUCLdata/">getCRUCLdata</a></span><span class="op">)</span>
 
-<span class="no">CRU_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_df.html">get_CRU_df</a></span>(<span class="kw">pre</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">pre_cv</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">rd0</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">tmp</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">dtr</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">reh</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">tmn</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">tmx</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">sunp</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">frs</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">wnd</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                       <span class="kw">elv</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="va">CRU_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_df.html">get_CRU_df</a></span><span class="op">(</span>pre <span class="op">=</span> <span class="cn">TRUE</span>,
+                       pre_cv <span class="op">=</span> <span class="cn">TRUE</span>,
+                       rd0 <span class="op">=</span> <span class="cn">TRUE</span>,
+                       tmp <span class="op">=</span> <span class="cn">TRUE</span>,
+                       dtr <span class="op">=</span> <span class="cn">TRUE</span>,
+                       reh <span class="op">=</span> <span class="cn">TRUE</span>,
+                       tmn <span class="op">=</span> <span class="cn">TRUE</span>,
+                       tmx <span class="op">=</span> <span class="cn">TRUE</span>,
+                       sunp <span class="op">=</span> <span class="cn">TRUE</span>,
+                       frs <span class="op">=</span> <span class="cn">TRUE</span>,
+                       wnd <span class="op">=</span> <span class="cn">TRUE</span>,
+                       elv <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="no">CRU_data</span></pre></body></html></div>
+<span class="va">CRU_data</span>
+<span class="co">#&gt; # A tibble: 6,795,150 x 15</span>
+<span class="co">#&gt;      lat   lon month   dtr   frs   pre pre_cv   rd0   reh   sun   tmp   wnd   elv   tmx   tmn</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  30.9  35.4 &lt;NA&gt;   NA    NA    NA     NA    NA    NA    NA    NA    NA    -260 NA    NA   </span>
+<span class="co">#&gt;  2  31.1  35.4 &lt;NA&gt;   NA    NA    NA     NA    NA    NA    NA    NA    NA    -361 NA    NA   </span>
+<span class="co">#&gt;  3  31.2  35.4 &lt;NA&gt;   NA    NA    NA     NA    NA    NA    NA    NA    NA    -336 NA    NA   </span>
+<span class="co">#&gt;  4  31.4  35.4 &lt;NA&gt;   NA    NA    NA     NA    NA    NA    NA    NA    NA    -284 NA    NA   </span>
+<span class="co">#&gt;  5  31.8  35.6 &lt;NA&gt;   NA    NA    NA     NA    NA    NA    NA    NA    NA    -248 NA    NA   </span>
+<span class="co">#&gt;  6  31.9  35.6 &lt;NA&gt;   NA    NA    NA     NA    NA    NA    NA    NA    NA    -210 NA    NA   </span>
+<span class="co">#&gt;  7 -59.1 -26.6 jan     2.3  18.7 105.    35.2  17.1  88.6   9.4   0.2   6.4   193  1.35 -0.95</span>
+<span class="co">#&gt;  8 -58.4 -26.4 jan     2.5  18.5 107.    36.2  17.2  88.5   9.9   0.4   6.4   239  1.65 -0.85</span>
+<span class="co">#&gt;  9 -58.4 -26.2 jan     2.4  18.4 106.    36.2  17.1  88.5  10     0.6   6.4   194  1.8  -0.6 </span>
+<span class="co">#&gt; 10 -55.9 -67.2 jan     7.6   8    73.1   44.1  13.3  80.7  34.3   8     5      64 11.8   4.2 </span>
+<span class="co">#&gt; # … with 6,795,140 more rows</span></code></pre></div>
 <p>Perhaps you only need one or two elements, it is easy to create a tidy data frame of mean temperature only.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">t</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_df.html">get_CRU_df</a></span>(<span class="kw">tmp</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_df.html">get_CRU_df</a></span><span class="op">(</span>tmp <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="va">t</span>
+<span class="co">#&gt; # A tibble: 6,795,144 x 4</span>
+<span class="co">#&gt;      lat   lon month   tmp</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 -59.1 -26.6 jan     0.2</span>
+<span class="co">#&gt;  2 -58.4 -26.2 jan     0.6</span>
+<span class="co">#&gt;  3 -58.4 -26.4 jan     0.4</span>
+<span class="co">#&gt;  4 -55.9 -67.2 jan     8  </span>
+<span class="co">#&gt;  5 -55.8 -67.2 jan     8.2</span>
+<span class="co">#&gt;  6 -55.8 -67.4 jan     8  </span>
+<span class="co">#&gt;  7 -55.8 -67.6 jan     8.4</span>
+<span class="co">#&gt;  8 -55.6 -67.4 jan     8.3</span>
+<span class="co">#&gt;  9 -55.6 -67.6 jan     8.6</span>
+<span class="co">#&gt; 10 -55.6 -68.1 jan     8.2</span>
+<span class="co">#&gt; # … with 6,795,134 more rows</span></code></pre></div>
 <div id="plotting-data-from-the-tidy-dataframe" class="section level4">
 <h4 class="hasAnchor">
 <a href="#plotting-data-from-the-tidy-dataframe" class="anchor"></a>Plotting data from the tidy dataframe</h4>
 <p>Now that we have the data, we can plot it easily using <em>ggplot2</em> and the <em>viridis</em> package for the colour scale.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"ggplot2"</span>)) {
-  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="no">ggplot2</span>)
-}
-<span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"viridis"</span>)) {
-  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"viridis"</span>)
-}
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sjmgarnier/viridis">viridis</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">viridis</span>)</pre></body></html></div>
-<p>Now that the required packages are installed and loaded, we can generate a figure of temperatures using <em>ggplot2</em> to map the 12 months.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">lon</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">lat</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_raster</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">tmp</span>)) +
-  <span class="fu"><a href="https://rdrr.io/pkg/viridis/man/scale_viridis.html">scale_fill_viridis</a></span>(<span class="kw">option</span> <span class="kw">=</span> <span class="st">"inferno"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_map.html">coord_quickmap</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Global Mean Monthly Temperatures 1961-1990"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~ <span class="no">month</span>, <span class="kw">nrow</span> <span class="kw">=</span> <span class="fl">4</span>)</pre></body></html></div>
-<div class="figure">
-<img src="README-unnamed-chunk-6-1.png" alt=""><p class="caption">Plot of global mean monthly temperatures 1961-1990</p>
-</div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">lon</span>, y <span class="op">=</span> <span class="va">lat</span>, fill <span class="op">=</span> <span class="va">tmp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/viridis/man/scale_viridis.html">scale_fill_viridis</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"inferno"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_map.html">coord_quickmap</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Global Mean Monthly Temperatures 1961-1990"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">month</span>, nrow <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code></pre></div>
+<p><img src="plot_t-1.png" title="plot of chunk plot_t" alt="plot of chunk plot_t" style="display: block; margin: auto;"></p>
 <p>We can also generate a violin plot of the same data to visualise how the temperatures change throughout the year.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">month</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">tmp</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Temperature (˚C)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Global Monthly Mean Land Surface Temperatures From 1960-1991"</span>,
-       <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"Excludes Antarctica"</span>)</pre></body></html></div>
-<div class="figure">
-<img src="README-unnamed-chunk-7-1.png" alt=""><p class="caption">Violin plot of global mean temperatures 1961-1990</p>
-</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">tmp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Temperature (˚C)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Global Monthly Mean Land Surface Temperatures From 1960-1991"</span>,
+       subtitle <span class="op">=</span> <span class="st">"Excludes Antarctica"</span><span class="op">)</span></code></pre></div>
+<p><img src="violin_plot-1.png" title="plot of chunk violin_plot" alt="plot of chunk violin_plot" style="display: block; margin: auto;"></p>
 </div>
 <div id="saving-the-tidy-data-frame-as-a-csv-comma-separated-values-file-locally" class="section level4">
 <h4 class="hasAnchor">
 <a href="#saving-the-tidy-data-frame-as-a-csv-comma-separated-values-file-locally" class="anchor"></a>Saving the tidy <code>data.frame</code> as a CSV (comma separated values file) locally</h4>
 <p>Save the resulting tidy <code>data.frame</code> to local disk as a comma separated (CSV) file to local disk, using <em>data.table</em>’s <code>fwrite()</code>.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">fwrite</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">t</span>, <span class="kw">file</span> <span class="kw">=</span> <span class="st">"~/CRU_tmp.csv"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">fwrite</span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, file <span class="op">=</span> <span class="st">"~/CRU_tmp.csv"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="creating-raster-stacks-for-use-in-r-and-saving-for-use-in-another-gis" class="section level3">
@@ -211,88 +222,196 @@
 <p>For working with spatial data, <em>getCRUCLdata</em> provides a function that create lists of <em>raster</em> stacks of the data.</p>
 <p>The <code><a href="../reference/get_CRU_stack.html">get_CRU_stack()</a></code> functions provide similar functionality to <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code>, but rather than returning a tidy data frame, it returns a list of <code><a href="https://rdrr.io/pkg/raster/man/stack.html">raster::stack()</a></code> objects for use in an R session.</p>
 <p>The <code><a href="../reference/get_CRU_stack.html">get_CRU_stack()</a></code> function automates the download process and creates a <code><a href="https://rdrr.io/pkg/raster/man/stack.html">raster::stack()</a></code> object of the CRU CL v. 2.0 climatology elements. Illustrated here is creating a <code><a href="https://rdrr.io/pkg/raster/man/stack.html">raster::stack()</a></code> of all CRU CL v. 2.0 climatology elements available.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">CRU_stack</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_stack.html">get_CRU_stack</a></span>(<span class="kw">pre</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">pre_cv</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">rd0</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">tmp</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">dtr</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">reh</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">tmn</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">tmx</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">sunp</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">frs</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">wnd</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                           <span class="kw">elv</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">CRU_stack</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_stack.html">get_CRU_stack</a></span><span class="op">(</span>
+  pre <span class="op">=</span> <span class="cn">TRUE</span>,
+  pre_cv <span class="op">=</span> <span class="cn">TRUE</span>,
+  rd0 <span class="op">=</span> <span class="cn">TRUE</span>,
+  tmp <span class="op">=</span> <span class="cn">TRUE</span>,
+  dtr <span class="op">=</span> <span class="cn">TRUE</span>,
+  reh <span class="op">=</span> <span class="cn">TRUE</span>,
+  tmn <span class="op">=</span> <span class="cn">TRUE</span>,
+  tmx <span class="op">=</span> <span class="cn">TRUE</span>,
+  sunp <span class="op">=</span> <span class="cn">TRUE</span>,
+  frs <span class="op">=</span> <span class="cn">TRUE</span>,
+  wnd <span class="op">=</span> <span class="cn">TRUE</span>,
+  elv <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span>
+
+<span class="va">CRU_stack</span>
+<span class="co">#&gt; $dtr</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :  jan,  feb,  mar,  apr,  may,  jun,  jul,  aug,  sep,  oct,  nov,  dec </span>
+<span class="co">#&gt; min values :  2.3,  2.1,  2.2,  2.3,  1.8,  2.5,  2.8,  2.4,  2.2,  2.8,  2.6,  2.0 </span>
+<span class="co">#&gt; max values : 22.7, 23.1, 23.5, 24.0, 24.0, 25.2, 25.8, 25.6, 25.5, 22.6, 22.9, 21.9 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $elv</span>
+<span class="co">#&gt; class      : RasterLayer </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200  (nrow, ncol, ncell)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      : elv </span>
+<span class="co">#&gt; values     : -361, 6486  (min, max)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $frs</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :  jan,  feb,  mar,  apr,  may,  jun,  jul,  aug,  sep,  oct,  nov,  dec </span>
+<span class="co">#&gt; min values :    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0 </span>
+<span class="co">#&gt; max values : 31.0, 28.3, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $pre</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 24  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :    jan,    feb,    mar,    apr,    may,    jun,    jul,    aug,    sep,    oct,    nov,    dec, pre_cv_jan, pre_cv_feb, pre_cv_mar, ... </span>
+<span class="co">#&gt; min values :    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,        0.0,      -10.5,        5.8, ... </span>
+<span class="co">#&gt; max values :  910.1,  824.3,  727.3,  741.3, 1100.0, 2512.6, 2505.5, 1799.4,  849.8,  851.6,  843.7,  733.3,      496.2,      495.5,      482.0, ... </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $rd0</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :  jan,  feb,  mar,  apr,  may,  jun,  jul,  aug,  sep,  oct,  nov,  dec </span>
+<span class="co">#&gt; min values :    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0 </span>
+<span class="co">#&gt; max values : 31.0, 28.2, 31.0, 30.0, 30.7, 30.0, 31.0, 31.0, 29.1, 28.4, 28.5, 30.3 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $reh</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :   jan,   feb,   mar,   apr,   may,   jun,   jul,   aug,   sep,   oct,   nov,   dec </span>
+<span class="co">#&gt; min values :  18.4,  14.6,  13.5,  13.4,  15.5,  10.2,  10.8,  10.1,  11.0,  14.2,  19.0,  19.7 </span>
+<span class="co">#&gt; max values : 100.0, 100.0, 100.0, 100.0,  96.9,  95.1,  96.9,  97.1,  95.5, 100.0, 100.0, 100.0 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $sun</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :  jan,  feb,  mar,  apr,  may,  jun,  jul,  aug,  sep,  oct,  nov,  dec </span>
+<span class="co">#&gt; min values :  0.0,  0.0,  3.3,  4.3,  8.1,  6.6,  5.3,  8.4,  4.5,  0.8,  0.0,  0.0 </span>
+<span class="co">#&gt; max values : 92.8, 93.0, 90.2, 93.1, 94.0, 98.9, 98.8, 98.8, 99.1, 95.8, 94.6, 93.1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $tmp</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      :   jan,   feb,   mar,   apr,   may,   jun,   jul,   aug,   sep,   oct,   nov,   dec </span>
+<span class="co">#&gt; min values : -51.6, -47.6, -45.2, -36.6, -22.2, -16.3, -14.0, -17.3, -26.4, -36.3, -41.6, -49.0 </span>
+<span class="co">#&gt; max values :  32.5,  32.1,  32.4,  34.3,  36.0,  38.3,  37.8,  36.8,  34.8,  32.8,  32.4,  32.2 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $wnd</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : memory</span>
+<span class="co">#&gt; names      : jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec </span>
+<span class="co">#&gt; min values : 0.1, 0.1, 0.3, 0.4, 0.3, 0.2, 0.3, 0.4, 0.5, 0.4, 0.2, 0.2 </span>
+<span class="co">#&gt; max values : 9.8, 9.6, 9.4, 9.0, 8.7, 8.6, 9.1, 9.3, 9.3, 9.7, 9.6, 9.4 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $tmn</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : /private/var/folders/1q/045gnpqd7dnfgzshmdn8hshw0000gp/T/Rtmp4VtMtp/raster/r_tmp_2020-10-26_111004_18359_15367.grd </span>
+<span class="co">#&gt; names      : layer.1, layer.2, layer.3, layer.4, layer.5, layer.6, layer.7, layer.8, layer.9, layer.10, layer.11, layer.12 </span>
+<span class="co">#&gt; min values :  -55.05,  -52.95,  -48.75,  -41.35,  -28.00,  -21.40,  -18.75,  -22.55,  -31.45,   -40.60,   -45.75,   -52.50 </span>
+<span class="co">#&gt; max values :   26.30,   26.25,   27.40,   27.50,   30.00,   30.65,   30.60,   30.40,   28.75,    26.95,    25.90,    26.55 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $tmx</span>
+<span class="co">#&gt; class      : RasterBrick </span>
+<span class="co">#&gt; dimensions : 870, 2160, 1879200, 12  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.1666667, 0.1666667  (x, y)</span>
+<span class="co">#&gt; extent     : -180, 180, -60, 85  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
+<span class="co">#&gt; source     : /private/var/folders/1q/045gnpqd7dnfgzshmdn8hshw0000gp/T/Rtmp4VtMtp/raster/r_tmp_2020-10-26_111006_18359_67835.grd </span>
+<span class="co">#&gt; names      : layer.1, layer.2, layer.3, layer.4, layer.5, layer.6, layer.7, layer.8, layer.9, layer.10, layer.11, layer.12 </span>
+<span class="co">#&gt; min values :  -48.20,  -43.35,  -41.65,  -32.45,  -17.55,  -11.50,  -10.85,  -12.30,  -21.65,   -32.05,   -37.55,   -45.50 </span>
+<span class="co">#&gt; max values :   39.70,   38.40,   40.25,   41.85,   43.60,   45.95,   45.70,   44.85,   42.35,    39.50,    39.20,    39.90</span></code></pre></div>
 <p>The <code><a href="../reference/create_CRU_stack.html">create_CRU_stack()</a></code> function works in the same way with only one minor difference. You must supply the location of the files on the local disk (<code>dsn</code>) that you wish to import.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">t</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_CRU_stack.html">create_CRU_stack</a></span>(<span class="kw">tmp</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">dsn</span> <span class="kw">=</span> <span class="st">"~/Downloads"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_CRU_stack.html">create_CRU_stack</a></span><span class="op">(</span>tmp <span class="op">=</span> <span class="cn">TRUE</span>, dsn <span class="op">=</span> <span class="st">"~/Downloads"</span><span class="op">)</span></code></pre></div>
 <div id="plotting-raster-stacks-of-tmin-and-tmax" class="section level4">
 <h4 class="hasAnchor">
 <a href="#plotting-raster-stacks-of-tmin-and-tmax" class="anchor"></a>Plotting raster stacks of tmin and tmax</h4>
-<p>Because the stacks are in a <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, we need to access each element of the list individually to plot them, that’s what the <code>[[1]]</code> or <code>[[2]]</code> is, the first or second element of the list. Here using <code>[[1]]</code> we will plot the monthly average minimum temperature for all twelve months.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
+<p>Because the stacks are in a <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, we need to access each element of the list individually to plot them, that’s what the <code>[[1]]</code> or <code>[[2]]</code> is, the first or second element of the list. Here using <code>[[7]]</code> we will plot the monthly average minimum temperature for all twelve months.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">t</span><span class="kw">[[</span><span class="fl">1</span>]])</pre></body></html></div>
-<div class="figure">
-<img src="README-unnamed-chunk-10-1.png" alt=""><p class="caption">Plot of raster layers from minimum temperature stack</p>
-</div>
-<p>To plot only one month from the stack is also possible. Here we plot maximum temperature for July. Note that we use indexing <code>[[2]]</code> as before but append a <code>$jul</code> to the object. This is the name of the layer in the <code><a href="https://rdrr.io/pkg/raster/man/stack.html">raster::stack()</a></code>. So, we are telling R to plot the second object in the <code>tmn_tmx</code> list, which is <code>tmx</code> and from that raster stack, plot only the layer for July.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">t</span><span class="kw">[[</span><span class="fl">2</span>]]$<span class="no">jul</span>)</pre></body></html></div>
-<div class="figure">
-<img src="README-unnamed-chunk-11-1.png" alt=""><p class="caption">Plot of maximum temperatures for July</p>
-</div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">CRU_stack</span><span class="op">[[</span><span class="fl">7</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p>To plot only one month from the stack is also possible. Here we plot maximum temperature for July. Note that we use indexing <code>[[2]]</code> as before but append a <code>$jul</code> to the object. This is the name of the layer in the <code><a href="https://rdrr.io/pkg/raster/man/stack.html">raster::stack()</a></code>. So, we are telling R to plot the second object in the <code>CRU_stack</code> list, which is <code>tmx</code> and from that raster stack, plot only the layer for July.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">t</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">jul</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="saving-raster-objects-to-local-disk" class="section level4">
 <h4 class="hasAnchor">
 <a href="#saving-raster-objects-to-local-disk" class="anchor"></a>Saving raster objects to local disk</h4>
 <p>The raster stack objects can be saved to disk as geotiff files (others are available, see help for <code><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">raster::writeRaster()</a></code> and <code><a href="https://rdrr.io/pkg/raster/man/writeFormats.html">raster::writeFormats()</a></code> for more options) on the <code>Data</code> directory with a tmn or tmx prefix to the month for a file name.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~/Data"</span>), <span class="kw">showWarnings</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span>(
-  <span class="no">t</span>$<span class="no">tmn</span>,
-  <span class="kw">filename</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~/Data/tmn_"</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span>(<span class="no">t</span>$<span class="no">tmn</span>)),
-  <span class="kw">bylayer</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">format</span> <span class="kw">=</span> <span class="st">"GTiff"</span>
-  )
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"~/Data"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span><span class="op">(</span>
+  <span class="va">t</span><span class="op">$</span><span class="va">tmn</span>,
+  filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"~/Data/tmn_"</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">t</span><span class="op">$</span><span class="va">tmn</span><span class="op">)</span><span class="op">)</span>,
+  bylayer <span class="op">=</span> <span class="cn">TRUE</span>,
+  format <span class="op">=</span> <span class="st">"GTiff"</span>
+<span class="op">)</span>
 
-  <span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span>(
-  <span class="no">t</span>$<span class="no">tmx</span>,
-  <span class="kw">filename</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~/Data/tmx_"</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span>(<span class="no">t</span>$<span class="no">tmn</span>)),
-  <span class="kw">bylayer</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">format</span> <span class="kw">=</span> <span class="st">"GTiff"</span>
-  )</pre></body></html></div>
-</div>
-</div>
-<div id="advanced-usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#advanced-usage" class="anchor"></a>Advanced usage</h2>
-<div id="caching-files-for-later-use" class="section level3">
-<h3 class="hasAnchor">
-<a href="#caching-files-for-later-use" class="anchor"></a>Caching files for later use</h3>
-<p>When using the <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code> or <code><a href="../reference/get_CRU_stack.html">get_CRU_stack()</a></code> functions, files may be cached in the users’ local space for later use (optional) or stored in a temporary directory and deleted when the R session is closed and not saved (this is the default behaviour already illustrated above). Illustrated here, create a tidy data frame of all CRU CL v. 2.0 climatology elements available and cache them to save time in the future. <em>In order to take advantage of the cached data, you must use the <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code> function again in the future</em>. This functionality is somewhat modelled after the <code><a href="https://rdrr.io/pkg/raster/man/getData.html">raster::getData()</a></code> function that will not download files that already exist in the working directory, however in this case the function is portable and it will work for any working directory. That is, if you have cached the data and you use <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code> again, it will use the cached data no matter what working directory you are in. This functionality will be most useful for writing scripts that may be used several times rather than just once off or if you frequently use the data in multiple analyses the data will not be downloaded again if they have been cached.</p>
-<p>Create a list of raster stacks of maximum and minimum temperature. To take advantage of the previously cached files and save time by not downloading files, specify <code>cache = TRUE</code>.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">tmn_tmx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_CRU_stack.html">get_CRU_stack</a></span>(<span class="kw">tmn</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                         <span class="kw">tmx</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                         <span class="kw">cache</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
-</div>
-<div id="downloading-files-outside-of-r-using-another-ftp-program" class="section level3">
-<h3 class="hasAnchor">
-<a href="#downloading-files-outside-of-r-using-another-ftp-program" class="anchor"></a>Downloading files outside of R using another FTP program</h3>
-<p>A second set of functions, <code><a href="../reference/create_CRU_df.html">create_CRU_df()</a></code> and <code><a href="../reference/create_CRU_stack.html">create_CRU_stack()</a></code>, is provided for users that may have connectivity issues or simply wish to use something other than R to download the data files. You may also wish to use these if you want to download the data and specify where it is stored rather than using the <code>cache</code> functionality of <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code> and <code><a href="../reference/get_CRU_stack.html">get_CRU_stack()</a></code>.</p>
-<p>The <code><a href="../reference/create_CRU_df.html">create_CRU_df()</a></code> and <code><a href="../reference/create_CRU_stack.html">create_CRU_stack()</a></code> functions work in the same way as <code><a href="../reference/get_CRU_df.html">get_CRU_df()</a></code> and <code><a href="../reference/get_CRU_stack.html">get_CRU_stack()</a></code> functions with only one major difference. You must supply the location of the files on the local disk (<code>dsn</code>) that you wish to import. That is, the CRU CL v. 2.0 data files <em>must</em> be downloaded prior to the use of these functions using a program external to R, <em>e.g.</em>, FileZilla or some other FTP program. In this instance it is recommended to use an FTP client (<em>e.g.</em>, <a href="https://filezilla-project.org">FileZilla</a>) to download the files, save locally and use one of these functions to import the data into R and generate your desired object to work with.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">t</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_CRU_df.html">create_CRU_df</a></span>(<span class="kw">tmp</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">dsn</span> <span class="kw">=</span> <span class="st">"~/Downloads"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span><span class="op">(</span>
+  <span class="va">t</span><span class="op">$</span><span class="va">tmx</span>,
+  filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"~/Data/tmx_"</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">t</span><span class="op">$</span><span class="va">tmn</span><span class="op">)</span><span class="op">)</span>,
+  bylayer <span class="op">=</span> <span class="cn">TRUE</span>,
+  format <span class="op">=</span> <span class="st">"GTiff"</span>
+<span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
 <div id="cru-cl-v--2-0-reference-and-abstract" class="section level1">
 <h1 class="hasAnchor">
 <a href="#cru-cl-v--2-0-reference-and-abstract" class="anchor"></a>CRU CL v. 2.0 reference and abstract</h1>
-<p>Mark New (1,*), David Lister (2), Mike Hulme (3), Ian Makin (4)<br>
-A high-resolution data set of surface climate over global land areas Climate Research, 2000, Vol 21, pg 1-25<br>
-(1) School of Geography and the Environment, University of Oxford, Mansfield Road, Oxford OX1 3TB, United Kingdom<br>
-(2) Climatic Research Unit, and (3) Tyndall Centre for Climate Change Research, both at School of Environmental Sciences, University of East Anglia, Norwich NR4 7TJ, United Kingdom<br>
-(4) International Water Management Institute, PO Box 2075, Colombo, Sri Lanka</p>
-<p><strong>ABSTRACT:</strong> We describe the construction of a 10-minute latitude/longitude data set of mean monthly surface climate over global land areas, excluding Antarctica. The climatology includes 8 climate elements - precipitation, wet-day frequency, temperature, diurnal temperature range, relative humidity,sunshine duration, ground frost frequency and windspeed - and was interpolated from a data set of station means for the period centred on 1961 to 1990. Precipitation was first defined in terms of the parameters of the Gamma distribution, enabling the calculation of monthly precipitation at any given return period. The data are compared to an earlier data set at 0.5 degrees latitude/longitude resolution and show added value over most regions. The data will have many applications in applied climatology, biogeochemical modelling, hydrology and agricultural meteorology and are available through the School of Geography Oxford (<a href="http://www.geog.ox.ac.uk" class="uri">http://www.geog.ox.ac.uk</a>), the International Water Management Institute “World Water and Climate Atlas” (<a href="http://www.iwmi.org" class="uri">http://www.iwmi.org</a>) and the Climatic Research Unit (<a href="http://www.cru.uea.ac.uk" class="uri">http://www.cru.uea.ac.uk</a>).</p>
+<p>Mark New (1,*), David Lister (2), Mike Hulme (3), Ian Makin (4) A high-resolution data set of surface climate over global land areas Climate Research, 2000, Vol 21, pg 1-25 (1) School of Geography and the Environment, University of Oxford, Mansfield Road, Oxford OX1 3TB, United Kingdom (2) Climatic Research Unit, and (3) Tyndall Centre for Climate Change Research, both at School of Environmental Sciences, University of East Anglia, Norwich NR4 7TJ, United Kingdom (4) International Water Management Institute, PO Box 2075, Colombo, Sri Lanka</p>
+<p><strong>ABSTRACT:</strong> We describe the construction of a 10-minute latitude/longitude data set of mean monthly surface climate over global land areas, excluding Antarctica. The climatology includes 8 climate elements - precipitation, wet-day frequency, temperature, diurnal temperature range, relative humidity,sunshine duration, ground frost frequency and windspeed - and was interpolated from a data set of station means for the period centred on 1961 to 1990. Precipitation was first defined in terms of the parameters of the Gamma distribution, enabling the calculation of monthly precipitation at any given return period. The data are compared to an earlier data set at 0.5 degrees latitude/longitude resolution and show added value over most regions. The data will have many applications in applied climatology, biogeochemical modelling, hydrology and agricultural meteorology and are available through the School of Geography Oxford (<a href="http://www.geog.ox.ac.uk" class="uri">http://www.geog.ox.ac.uk</a>), the International Water Management Institute “World Water and Climate Atlas” (<a href="https://www.iwmi.cgiar.org/" class="uri">https://www.iwmi.cgiar.org/</a>) and the Climatic Research Unit (<a href="http://www.cru.uea.ac.uk" class="uri">http://www.cru.uea.ac.uk</a>).</p>
 </div>
   </div>
 
@@ -307,11 +426,11 @@ A high-resolution data set of surface climate over global land areas Climate Res
 
 
       <footer><div class="copyright">
-  <p>Developed by Adam Sparks.</p>
+  <p>Developed by Adam H. Sparks.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -1,7 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  Advanced_use: Advanced_use.html
   getCRUCLdata: getCRUCLdata.html
-last_built: 2020-08-20T06:18Z
+last_built: 2020-12-16T04:24Z
 
